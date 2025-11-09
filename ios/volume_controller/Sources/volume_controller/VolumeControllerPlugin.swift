@@ -19,9 +19,6 @@ public class VolumeControllerPlugin: NSObject, FlutterPlugin {
       name: ChannelName.eventChannel,
       binaryMessenger: registrar.messenger())
     eventChannel.setStreamHandler(volumeListener)
-
-    // Application Life Cycle
-    registrar.addApplicationDelegate(instance)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -49,17 +46,6 @@ public class VolumeControllerPlugin: NSObject, FlutterPlugin {
       result(nil)
     default:
       result(FlutterMethodNotImplemented)
-    }
-  }
-}
-
-extension VolumeControllerPlugin: FlutterApplicationLifeCycleDelegate {
-  public func applicationWillEnterForeground(_ application: UIApplication) {
-    VolumeControllerPlugin.audioSession.activateAudioSession()
-    VolumeControllerPlugin.audioSession.setAudioSessionCategory()
-
-    if VolumeControllerPlugin.volumeListener.isObservingVolume {
-      VolumeControllerPlugin.volumeListener.sendVolumeChangeEvent()
     }
   }
 }
